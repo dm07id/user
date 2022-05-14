@@ -1,0 +1,55 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: DEV-1
+      author: burst
+      changes:
+        - createTable:
+            tableName: users
+            remarks: Пользователи
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: article_pk
+                    nullable: false
+              - column:
+                  name: login
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: true
+  - changeSet:
+      id: DEV-2
+      author: burst
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: login
+                  value: "Dmitry"
+              - column:
+                  name: email
+                  value: "burst@email.com"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: login
+                  value: "Nata"
+              - column:
+                  name: email
+                  value: "nata@email.com"
+      rollback:
+        - delete:
+            tableName: users
+            where: login in ('Dmitry', 'Nata')
